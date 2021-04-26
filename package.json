@@ -1,0 +1,36 @@
+{
+  "name": "@akashic-contents/niconicoSnake",
+  "private": true,
+  "version": "0.1.0",
+  "description": "multiplay snake game sample",
+  "scripts": {
+    "build": "rimraf ./script && tsc && akashic-cli-scan asset script",
+    "update": "akashic-cli-scan asset && akashic-cli-scan globalScripts",
+    "serve": "akashic serve -s nicolive",
+    "lint": "eslint -c .eslintrc.js \"./src/**/*.ts\" --parser-options \"project: './tsconfig.json'\" --fix",
+    "test": "jest --passWithNoTests"
+  },
+  "author": "DWANGO Co., Ltd.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akashic-contents/niconicoSnake.git"
+  },
+  "devDependencies": {
+    "@akashic/akashic-cli-scan": "~0.5.4",
+    "@akashic/akashic-engine": "~3.0.4",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.0.0",
+    "jest": "26.0.1",
+    "rimraf": "3.0.2",
+    "typescript": "3.9.2"
+  },
+  "dependencies": {
+    "@akashic-extension/akashic-label": "^3.0.1",
+    "@akashic-extension/akashic-tile": "^3.0.0",
+    "@akashic-extension/akashic-timeline": "^3.0.0",
+    "@akashic-extension/resolve-player-info": "^1.0.1",
+    "grapheme-splitter": "^1.0.4"
+  }
+}
