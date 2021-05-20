@@ -1184,13 +1184,13 @@ export enum AudioType {
 }
 
 function commonAreaFromSprite(e: g.E): g.CommonArea {
-	const topLeftOffset = e.localToGlobal({
+	const offset = e.localToGlobal({
 		x: 0,
 		y: 0
 	});
 	return {
-		x: topLeftOffset.x - e.anchorX * e.width,
-		y: topLeftOffset.y - e.anchorY * e.height,
+		x: offset.x - e.anchorX * e.width,
+		y: offset.y - e.anchorY * e.height,
 		width: e.width,
 		height: e.height
 	};
