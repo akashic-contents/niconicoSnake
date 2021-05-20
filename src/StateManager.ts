@@ -28,7 +28,7 @@ import {
 } from "./types/MessageEventType";
 import { UserTouchState } from "./types/UserTouchState";
 import { PlayerList } from "./types/PlayerList";
-import { Snake, SnakeType, SnakeSegmentType, SnakeRotateState, SnakeSegment } from "./entity/Snake";
+import { Snake, SnakeType, SnakeSegmentType, SnakeRotateState } from "./entity/Snake";
 import { sessionParameter } from "./config/defaultParameter";
 import { Food } from "./entity/Food";
 import { JewelData } from "./entity/Jewel";
@@ -540,18 +540,15 @@ export class StateManager {
 
 		/** スネークの頭同士の判定 */
 		const enemyHeadArea = commonAreaFromSprite(enemySnake.head);
-		collided = collided || g.Collision.withinAreas(playerHeadArea, enemyHeadArea, playerHeadArea.width);
+		collided = collided || g.Collision.withinAreas(playerHeadArea, enemyHeadArea, playerSnake.head.width);
 
 		/** あるスネークと敵スネーク節の当たり判定 */
 		enemySnake.segments.forEach(seg => {
 			if (seg.type === SnakeSegmentType.Jewel) return;
-			const enemyBodyArea: g.CommonArea = {
-				width: seg.body.width,
-				height: seg.body.height,
-				x: seg.x + seg.body.x,
-				y: seg.y + seg.body.y
-			};
-			collided = collided || g.Collision.withinAreas(playerHeadArea, enemyBodyArea, (seg.body.width + playerHeadArea.width) / 2);
+			const enemyBodyArea = commonAreaFromSprite(seg.body);
+			collided = collided || g.Collision.withinAreas(playerHeadArea, enemyBodyArea,
+				((seg.body.width + playerSnake.head.width) / 2)
+			);
 		});
 		return collided;
 	}
@@ -587,7 +584,7 @@ export class StateManager {
 				const playerHeadArea = commonAreaFromSprite(playerSnake.head);
 				if (
 					!isEaten &&
-					g.Collision.withinAreas(foodArea, playerHeadArea, (foodArea.width + playerHeadArea.height) / 2)
+					g.Collision.withinAreas(foodArea, playerHeadArea, (foodArea.width + playerSnake.head.width))
 				){
 					isEaten = true;
 					eatenFoodInfo.push({eaterId: playerId, eatenIndex: foodIndex});
@@ -1186,11 +1183,15 @@ export enum AudioType {
 	ResultBGM = "ResultBGM"
 }
 
-function commonAreaFromSprite(segment: SnakeSegment): g.CommonArea {
+function commonAreaFromSprite(e: g.E): g.CommonArea {
+	const offset = e.localToGlobal({
+		x: 0,
+		y: 0
+	});
 	return {
-		width: segment.body.width * 0.8,
-		height: segment.body.height * 0.8,
-		x: segment.x + segment.body.x - segment.body.width / 2,
-		y: segment.y + segment.body.y - segment.body.height / 2
+		x: offset.x - e.anchorX * e.width,
+		y: offset.y - e.anchorY * e.height,
+		width: e.width,
+		height: e.height
 	};
 }
