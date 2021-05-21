@@ -536,18 +536,18 @@ export class StateManager {
 
 		if (!playerSnake || !enemySnake) return false;
 
-		const playerHeadArea = commonAreaFromSprite(playerSnake.head);
+		const playerHeadArea = commonAreaFromSprite(playerSnake.head.body);
 
 		/** スネークの頭同士の判定 */
-		const enemyHeadArea = commonAreaFromSprite(enemySnake.head);
-		collided = collided || g.Collision.withinAreas(playerHeadArea, enemyHeadArea, playerSnake.head.width);
+		const enemyHeadArea = commonAreaFromSprite(enemySnake.head.body);
+		collided = collided || g.Collision.withinAreas(playerHeadArea, enemyHeadArea, playerSnake.head.body.width / 2);
 
 		/** あるスネークと敵スネーク節の当たり判定 */
 		enemySnake.segments.forEach(seg => {
 			if (seg.type === SnakeSegmentType.Jewel) return;
 			const enemyBodyArea = commonAreaFromSprite(seg.body);
 			collided = collided || g.Collision.withinAreas(playerHeadArea, enemyBodyArea,
-				((seg.body.width + playerSnake.head.width) / 2)
+				(seg.body.width + playerSnake.head.body.width) / 2
 			);
 		});
 		return collided;
@@ -581,10 +581,10 @@ export class StateManager {
 					y: shownFood.food.y - shownFood.food.height / 2
 				};
 
-				const playerHeadArea = commonAreaFromSprite(playerSnake.head);
+				const playerHeadArea = commonAreaFromSprite(playerSnake.head.body);
 				if (
 					!isEaten &&
-					g.Collision.withinAreas(foodArea, playerHeadArea, (foodArea.width + playerSnake.head.width))
+					g.Collision.withinAreas(foodArea, playerHeadArea, (foodArea.width + playerSnake.head.body.width) / 2)
 				){
 					isEaten = true;
 					eatenFoodInfo.push({eaterId: playerId, eatenIndex: foodIndex});
@@ -725,8 +725,8 @@ export class StateManager {
 				!checkStateRole(this.playerList[playerId].state, StateRoleType.CanDropType)
 			) return;
 
-			const playerHeadArea = commonAreaFromSprite(playerSnake.head);
-			if (g.Collision.withinAreas(jewelArea, playerHeadArea, jewelArea.width / 2 + playerHeadArea.height / 2)){
+			const playerHeadArea = commonAreaFromSprite(playerSnake.head.body);
+			if (g.Collision.withinAreas(jewelArea, playerHeadArea, (jewelArea.width + playerHeadArea.height) / 2)){
 				// お宝をゲットした最初の一人をオーナーとする
 				nowOwnerId = playerId;
 				return;
@@ -1184,13 +1184,13 @@ export enum AudioType {
 }
 
 function commonAreaFromSprite(e: g.E): g.CommonArea {
-	const offset = e.localToGlobal({
-		x: 0,
-		y: 0
+	const centerPos = e.localToGlobal({ // Eの中心座標を得る
+		x: e.anchorX * e.width,
+		y: e.anchorY * e.height
 	});
 	return {
-		x: offset.x - e.anchorX * e.width,
-		y: offset.y - e.anchorY * e.height,
+		x: centerPos.x - e.anchorX * e.width, // anchor位置をオフセットする
+		y: centerPos.y - e.anchorY * e.height,
 		width: e.width,
 		height: e.height
 	};
