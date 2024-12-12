@@ -940,6 +940,11 @@
 			"type": "script",
 			"path": "script/commonUtils/utils.js",
 			"global": true
+		},
+		"StateManagerLike": {
+			"type": "script",
+			"path": "script/StateManagerLike.js",
+			"global": true
 		}
 	},
 	"moduleMainScripts": {
@@ -952,7 +957,7 @@
 	},
 	"environment": {
 		"sandbox-runtime": "3",
-		"niconico": {
+		"nicolive": {
 			"supportedModes": [
 				"multi"
 			]
