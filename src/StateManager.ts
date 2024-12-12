@@ -38,6 +38,8 @@ import { changeAudioMasterVolume } from "./utils/audioUtils";
 import { checkStateRole, StateRoleType } from "./utils/StateRoleChecker";
 import { stringToArray } from "./commonUtils/utils";
 import { weightedLottery } from "./commonUtils/lottery";
+import { PlayerState } from "./StateManagerLike"; 
+import type { AudioType, StateManagerLike, EatenFoodInfo, SnakeCollisionInfo } from "./StateManagerLike";
 
 export interface StateManagerParameterObject {
 	sessionParameter: SnakeGameSessionParameter;
@@ -47,7 +49,7 @@ export interface StateManagerParameterObject {
 /**
  * ゲーム全体の状態を管理するクラス
  */
-export class StateManager {
+export class StateManager implements StateManagerLike {
 	sessionParameter: SnakeGameSessionParameter;
 	broadcaster: g.Player;
 	broadcasterData: AccountData;
@@ -1021,41 +1023,6 @@ export interface PlayerInfoParameterObject {
 	snakeType: SnakeType; // スネークの種類
 }
 
-export enum PlayerState {
-	/**
-     * 不可視な天使（ゴースト）として参加している
-     */
-	ghost = "ghost",
-
-	/**
-     * 盤面に影響を持つスネークを操作している
-     */
-	playing = "playing",
-
-	/**
-     * join済みだがゴーストもスネークも操作していない
-     */
-	dead = "dead",
-
-	/**
-	 * 無敵状態（当たり判定なし）
-	 * ゲーム開始・リスポン直後に即死するのを避けるための状態で、ghostとは区別される
-	 * 生きているプレイヤーとしてカウントされる
-	 */
-	invincible = "invincible",
-
-	/**
-	 * 演出中の状態（当たり判定なし）
-	 * キルされた時などに演出を行うための状態
-	 * 生きているプレイヤーとしてカウントされる
-	 */
-	staging = "staging"
-
-	/**
-     * joinを押してないプレイヤーはPlayerStateが生成されないため、これを表現する種別はない
-     */
-}
-
 export class PlayerInfo {
 	player: g.Player;
 	user: AccountData;
@@ -1097,90 +1064,6 @@ export class PlayerInfo {
 	getsLastWords(): string {
 		return this.snake.words.reduce((str, ch) => str + ch, "");
 	}
-}
-
-export interface SnakeCollisionInfo{
-	/**
-	 * 倒されたプレイヤーのid
-	 */
-	deadPlayerId: string;
-
-	/**
-	 * deadPlayerIdを倒したプレイヤーのid
-	 */
-	killerPlayerId: string;
-}
-
-export interface EatenFoodInfo{
-	/**
-	 * エサを食べたプレイヤーのid
-	 */
-	eaterId: string;
-
-	/**
-	 * 食べられたエサのindex
-	 */
-	eatenIndex: number; // データ削減のためFoodを使わない
-}
-
-export enum AudioType {
-	// ----------
-	// ゲーム画面のオーディオ
-	// ----------
-
-	/**
-	 * ゲーム画面BGM
-	 */
-	GameBGM = "GameBGM",
-
-	/**
-	 * ３２１カウントダウン時のSE
-	 */
-	Count = "Count",
-
-	/**
-	 * ゲーム開始時のSE
-	 */
-	Start = "Start",
-
-	/**
-	 * ゲーム終了時のSE
-	 */
-	Finish = "Finish",
-
-	/**
-	 * 衝突時のSE
-	 */
-	Collision = "Collision",
-
-	/**
-	 * ダッシュ時のSE
-	 */
-	Dash = "Dash",
-
-	/**
-	 * お宝ゲット時のSE
-	 */
-	Jewel = "Jewel",
-
-	/**
-	 * 選択時のSE
-	 */
-	Select = "Select",
-
-	// ----------
-	// リザルト画面のオーディオ
-	// ----------
-
-	/**
-	 * イントロ
-	 */
-	Intro = "Intro",
-
-	/**
-	 * リザルト画面BGM
-	 */
-	ResultBGM = "ResultBGM"
 }
 
 function commonAreaFromSprite(e: g.E): g.CommonArea {

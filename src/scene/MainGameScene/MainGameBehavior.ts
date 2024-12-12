@@ -1,5 +1,6 @@
 import { MainGameScene } from "./MainGameScene";
-import { StateManager, AudioType, PlayerState } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
+import { AudioType, PlayerState } from "../../StateManagerLike";
 import { Behavior } from "../Behavior";
 import {
 	MessageEventType,
@@ -23,7 +24,7 @@ import { StateRoleType, checkStateRole } from "../../utils/StateRoleChecker";
 
 export interface MainGameBehaviorParameterObject {
 	scene: MainGameScene;
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class MainGameBehavior extends Behavior {

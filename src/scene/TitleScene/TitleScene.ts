@@ -1,5 +1,5 @@
 import { SceneBase } from "../SceneBase";
-import { StateManager } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
 import { TitleBehavior } from "./TitleBehavior";
 import { joinRequestSequence, startRecruitmentSequence } from "../../utils/joinSequence";
 import { BigButton } from "../../entity/TitleScene/BigButton";
@@ -7,7 +7,7 @@ import { RecruitmentCountDown } from "../../entity/TitleScene/RecruitmentCountDo
 import { WaitingText } from "../../entity/TitleScene/WaitingText";
 import { HowtoText } from "../../entity/TitleScene/HowtoText";
 
-export function createTitleScene(stateManager: StateManager): SceneBase {
+export function createTitleScene(stateManager: StateManagerLike): SceneBase {
 	const assetIds: string[] = [
 		"frame_howto",
 		"btn_frame_join",
@@ -23,11 +23,11 @@ export function createTitleScene(stateManager: StateManager): SceneBase {
 }
 
 export interface TitleSceneParameterObject extends g.SceneParameterObject {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class TitleScene extends SceneBase {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 	root: g.E;
 	howtoText: HowtoText;
 	preparationText: g.Label;

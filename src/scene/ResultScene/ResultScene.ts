@@ -1,7 +1,8 @@
 import { Label } from "@akashic-extension/akashic-label";
 import { Timeline } from "@akashic-extension/akashic-timeline";
 import { SceneBase } from "../SceneBase";
-import { StateManager, AudioType } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
+import { AudioType } from "../../StateManagerLike";
 import { ResultBehavior } from "./ResultBehavior";
 import { clampString } from "../../commonUtils/utils";
 import { MessageEventType, MessageEventDataNextRankingType, MessageEventDataScrollSpeed } from "../../types/MessageEventType";
@@ -9,7 +10,7 @@ import { resultAssetIds } from "../../assetIds";
 import { RankingLabel, ScrollSpeedType } from "../../entity/ResultScene/RankingLabel";
 import { ResultLogData } from "../../types/ResultLogData";
 
-export function createResultScene(stateManager: StateManager): SceneBase {
+export function createResultScene(stateManager: StateManagerLike): SceneBase {
 	const assetIds = [];
 	assetIds.push(...resultAssetIds);
 	const resultScene = new ResultScene({
@@ -21,11 +22,11 @@ export function createResultScene(stateManager: StateManager): SceneBase {
 }
 
 export interface ResultSceneParameterObject extends g.SceneParameterObject {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class ResultScene extends SceneBase {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 	timeline: Timeline;
 	root: g.E;
 

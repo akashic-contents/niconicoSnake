@@ -1,4 +1,4 @@
-import { StateManager } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
 import { Behavior } from "../Behavior";
 import { ResultScene } from "./ResultScene";
 import {
@@ -8,7 +8,7 @@ import {
 
 export interface ResultBehaviorParameterObject {
 	scene: ResultScene;
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class ResultBehavior extends Behavior {

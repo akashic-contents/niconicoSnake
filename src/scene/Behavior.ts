@@ -1,14 +1,14 @@
 import { SceneBase } from "./SceneBase";
-import { StateManager } from "../StateManager";
+import type { StateManagerLike } from "../StateManagerLike";
 
 export interface BehaviorParameterObject {
 	scene: SceneBase;
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export abstract class Behavior {
 	scene: SceneBase;
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 
 	constructor(param: BehaviorParameterObject) {
 		this.scene = param.scene;

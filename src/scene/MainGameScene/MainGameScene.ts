@@ -1,7 +1,8 @@
 import { Label } from "@akashic-extension/akashic-label";
 import { Timeline, Easing } from "@akashic-extension/akashic-timeline";
 import { SceneBase } from "../SceneBase";
-import { StateManager, SnakeCollisionInfo, PlayerState, AudioType } from "../../StateManager";
+import type { StateManagerLike, SnakeCollisionInfo } from "../../StateManagerLike";
+import { AudioType, PlayerState } from "../../StateManagerLike";
 import { MainGameBehavior } from "./MainGameBehavior";
 import { UserTouchState } from "../../types/UserTouchState";
 import {
@@ -34,7 +35,7 @@ import { MiniMap } from "../../entity/MiniMap";
 import { DashingGauge } from "../../entity/DashingGauge";
 import { checkStateRole, StateRoleType } from "../../utils/StateRoleChecker";
 
-export function createMainGameScene(stateManager: StateManager): SceneBase {
+export function createMainGameScene(stateManager: StateManagerLike): SceneBase {
 	const foodCharsAsset = g.game.assets.foodAvailableChars as g.TextAsset;
 	const foodChars: string[] = JSON.parse(foodCharsAsset.data).foodAvailableChars;
 
@@ -54,12 +55,12 @@ export function createMainGameScene(stateManager: StateManager): SceneBase {
 }
 
 export interface MainGameSceneParameterObject extends g.SceneParameterObject {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 	foodChars: string[]; // ランダム出現するエサとして利用できる文字
 }
 
 export class MainGameScene extends SceneBase {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 	timeline: Timeline;
 	foodChars: string[];
 	root: g.E;
