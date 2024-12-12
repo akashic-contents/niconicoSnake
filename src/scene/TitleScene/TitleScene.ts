@@ -179,13 +179,13 @@ export class TitleScene extends SceneBase {
 
 			for (let i = 0; i < 10; i++) {
 				let name = "";
-				const nameLength = Math.floor(Math.random() * 15) + 1;
+				const nameLength = Math.floor(g.game.localRandom.generate() * 15) + 1;
 				for (let i = 0; i < nameLength; i++){
-					name += RANDOM_CHARS[Math.floor(Math.random() * RANDOM_CHARS.length)];
+					name += RANDOM_CHARS[Math.floor(g.game.localRandom.generate() * RANDOM_CHARS.length)];
 				}
 
 				joinRequestSequence({
-					id: Math.round(Math.random() * 1000).toString(),
+					id: Math.round(g.game.localRandom.generate() * 1000).toString(),
 					name: name
 				});
 			}

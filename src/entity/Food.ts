@@ -101,6 +101,6 @@ export class Food extends OffsetGroup {
 		this.root.scene.setTimeout(() => {
 			if (!this.root.scene || this.root.destroyed()) return; // 消費された場合
 			this.root.onUpdate.add(createLabel); // createLabel が true を返して解除
-		}, 50 + Math.random() * 500);
+		}, 50 + g.game.localRandom.generate() * 500);
 	}
 }
