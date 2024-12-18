@@ -1,4 +1,5 @@
-import { PlayerInfo, SnakeCollisionInfo, EatenFoodInfo } from "../StateManager";
+import type { PlayerInfo } from "../StateManager";
+import type { SnakeCollisionInfo, EatenFoodInfo } from "../StateManagerLike";
 import { UserTouchState } from "./UserTouchState";
 import { RankingType } from "../scene/ResultScene/ResultScene";
 import { ScrollSpeedType } from "../entity/ResultScene/RankingLabel";

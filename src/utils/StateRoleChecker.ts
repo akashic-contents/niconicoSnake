@@ -1,4 +1,4 @@
-import { PlayerState } from "../StateManager";
+import { PlayerState } from "../StateManagerLike";
 
 export enum StateRoleType {
 	/**

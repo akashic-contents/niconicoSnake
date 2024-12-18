@@ -1,4 +1,4 @@
-import { StateManager } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
 import { Behavior } from "../Behavior";
 import { TitleScene } from "./TitleScene";
 import {
@@ -12,7 +12,7 @@ import {
 
 export interface TitleBehaviorParameterObject {
 	scene: TitleScene;
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class TitleBehavior extends Behavior {

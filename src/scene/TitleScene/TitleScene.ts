@@ -1,5 +1,5 @@
 import { SceneBase } from "../SceneBase";
-import { StateManager } from "../../StateManager";
+import type { StateManagerLike } from "../../StateManagerLike";
 import { TitleBehavior } from "./TitleBehavior";
 import { joinRequestSequence, startRecruitmentSequence } from "../../utils/joinSequence";
 import { BigButton } from "../../entity/TitleScene/BigButton";
@@ -7,7 +7,7 @@ import { RecruitmentCountDown } from "../../entity/TitleScene/RecruitmentCountDo
 import { WaitingText } from "../../entity/TitleScene/WaitingText";
 import { HowtoText } from "../../entity/TitleScene/HowtoText";
 
-export function createTitleScene(stateManager: StateManager): SceneBase {
+export function createTitleScene(stateManager: StateManagerLike): SceneBase {
 	const assetIds: string[] = [
 		"frame_howto",
 		"btn_frame_join",
@@ -23,11 +23,11 @@ export function createTitleScene(stateManager: StateManager): SceneBase {
 }
 
 export interface TitleSceneParameterObject extends g.SceneParameterObject {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 }
 
 export class TitleScene extends SceneBase {
-	stateManager: StateManager;
+	stateManager: StateManagerLike;
 	root: g.E;
 	howtoText: HowtoText;
 	preparationText: g.Label;
@@ -179,13 +179,13 @@ export class TitleScene extends SceneBase {
 
 			for (let i = 0; i < 10; i++) {
 				let name = "";
-				const nameLength = Math.floor(Math.random() * 15) + 1;
+				const nameLength = Math.floor(g.game.localRandom.generate() * 15) + 1;
 				for (let i = 0; i < nameLength; i++){
-					name += RANDOM_CHARS[Math.floor(Math.random() * RANDOM_CHARS.length)];
+					name += RANDOM_CHARS[Math.floor(g.game.localRandom.generate() * RANDOM_CHARS.length)];
 				}
 
 				joinRequestSequence({
-					id: Math.round(Math.random() * 1000).toString(),
+					id: Math.round(g.game.localRandom.generate() * 1000).toString(),
 					name: name
 				});
 			}
