@@ -32,5 +32,12 @@
     "@akashic-extension/akashic-timeline": "^3.0.0",
     "@akashic-extension/resolve-player-info": "^1.0.1",
     "grapheme-splitter": "^1.0.4"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.11.0",
+      "onFail": "error"
+    }
   }
 }
